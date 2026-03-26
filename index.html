@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaceMark — Community Impact Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --forest: #1a3a2a;
+    --sage: #4a7c59;
+    --moss: #7aab8a;
+    --cream: #f5f0e8;
+    --warm: #e8dcc8;
+    --clay: #c4855a;
+    --gold: #d4a847;
+    --text: #1a1a1a;
+    --muted: #6b6b6b;
+    --white: #ffffff;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(26,58,42,0.10);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--forest);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    color: var(--cream);
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 0.5rem; }
+  .nav-links button {
+    background: none;
+    border: none;
+    color: var(--warm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .nav-links button:hover, .nav-links button.active {
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+  }
+
+  /* PAGES */
+  .page { display: none; animation: fadeIn 0.35s ease; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ===== LANDING ===== */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .hero-left {
+    background: var(--forest);
+    padding: 5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(212,168,71,0.2);
+    color: var(--gold);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.9rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(212,168,71,0.3);
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.6rem;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+  .hero-desc {
+    color: rgba(245,240,232,0.7);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 420px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--forest);
+    border: none;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #e6bb55; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--cream);
+    border: 1.5px solid rgba(245,240,232,0.3);
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--cream); background: rgba(255,255,255,0.05); }
+
+  .hero-right {
+    background: var(--warm);
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.2rem;
+  }
+  .module-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+  }
+  .module-card:hover { border-color: var(--sage); transform: translateX(4px); }
+  .module-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .module-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--forest); }
+  .module-card p { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+  .module-num {
+    margin-left: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--moss);
+    background: rgba(74,124,89,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  /* ===== SETUP ===== */
+  .page-header {
+    background: var(--forest);
+    padding: 3rem 4rem;
+    color: var(--cream);
+  }
+  .page-header .breadcrumb {
+    font-size: 0.8rem;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p { color: rgba(245,240,232,0.7); font-size: 0.95rem; }
+
+  .page-content { padding: 3rem 4rem; max-width: 1100px; }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest);
+    letter-spacing: 0.02em;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--white);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--sage);
+  }
+  .form-group textarea { resize: vertical; min-height: 90px; }
+
+  .toc-builder {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+  }
+  .toc-builder h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--forest);
+    margin-bottom: 0.4rem;
+  }
+  .toc-builder > p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.8rem; }
+
+  .toc-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 1fr 1fr 1fr;
+    gap: 0;
+    margin-bottom: 1rem;
+  }
+  .toc-label {
+    background: var(--forest);
+    color: var(--cream);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.7rem 1rem;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+  }
+  .toc-cell {
+    border: 1.5px solid #e0e0e0;
+    border-left: none;
+    padding: 0.7rem 1rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+  }
+  .toc-cell:last-child { border-radius: 0 8px 8px 0; }
+  .toc-cell input {
+    border: none;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    color: var(--text);
+    width: 100%;
+    background: transparent;
+  }
+  .toc-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--moss);
+    padding: 0 0.3rem;
+    background: rgba(74,124,89,0.08);
+    border-top: 1.5px solid #e0e0e0;
+    border-bottom: 1.5px solid #e0e0e0;
+  }
+
+  .section-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+  }
+  .section-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--forest);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== INDICATORS ===== */
+  .domain-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .domain-tab {
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    border: 1.5px solid #ddd;
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  .domain-tab.active {
+    background: var(--forest);
+    border-color: var(--forest);
+    color: var(--cream);
+  }
+  .indicator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .indicator-item {
+    background: var(--white);
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .indicator-item:hover { border-color: var(--sage); }
+  .indicator-item.selected {
+    border-color: var(--sage);
+    background: rgba(74,124,89,0.04);
+  }
+  .indicator-item.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 22px; height: 22px;
+    background: var(--sage);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .indicator-name { font-size: 0.9rem; font-weight: 600; color: var(--forest); margin-bottom: 0.4rem; }
+  .indicator-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 0.8rem; }
+  .indicator-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .tag-quant { background: rgba(26,58,42,0.08); color: var(--forest); }
+  .tag-qual { background: rgba(196,133,90,0.12); color: var(--clay); }
+  .tag-easy { background: rgba(122,171,138,0.15); color: var(--sage); }
+  .tag-medium { background: rgba(212,168,71,0.15); color: #b8893a; }
+
+  /* ===== DATA COLLECTION ===== */
+  .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .tool-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    box-shadow: var(--shadow);
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .tool-card:hover { border-color: var(--sage); transform: translateY(-2px); }
+  .tool-emoji { font-size: 2rem; margin-bottom: 0.8rem; }
+  .tool-card h3 { font-size: 0.92rem; font-weight: 600; color: var(--forest); margin-bottom: 0.4rem; }
+  .tool-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ===== DASHBOARD ===== */
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.6rem;
+    box-shadow: var(--shadow);
+  }
+  .stat-label { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .stat-value { font-family: 'DM Serif Display', serif; font-size: 2.4rem; color: var(--forest); line-height: 1; }
+  .stat-sub { font-size: 0.78rem; color: var(--moss); margin-top: 0.4rem; }
+
+  .chart-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1.2rem; }
+  .chart-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+  }
+  .chart-card h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--forest);
+    margin-bottom: 1.5rem;
+  }
+
+  .bar-chart { display: flex; flex-direction: column; gap: 0.9rem; }
+  .bar-item { display: flex; align-items: center; gap: 1rem; }
+  .bar-label { font-size: 0.78rem; color: var(--muted); width: 90px; flex-shrink: 0; }
+  .bar-track { flex: 1; height: 10px; background: #f0f0f0; border-radius: 5px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 5px; transition: width 1s ease; }
+  .bar-pct { font-size: 0.78rem; font-weight: 600; color: var(--forest); width: 36px; text-align: right; }
+
+  .donut-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 1.2rem; }
+  .donut { width: 120px; height: 120px; }
+  .donut-legend { display: flex; flex-direction: column; gap: 0.5rem; width: 100%; }
+  .legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.76rem; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  .quotes-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    box-shadow: var(--shadow);
+    margin-top: 1.2rem;
+  }
+  .quotes-card h3 { font-size: 0.9rem; font-weight: 600; color: var(--forest); margin-bottom: 1.2rem; }
+  .quote-item {
+    border-left: 3px solid var(--sage);
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    background: rgba(74,124,89,0.04);
+    border-radius: 0 8px 8px 0;
+  }
+  .quote-text { font-size: 0.85rem; color: var(--text); font-style: italic; line-height: 1.6; }
+  .quote-author { font-size: 0.75rem; color: var(--muted); margin-top: 0.4rem; }
+
+  /* ===== REPORT ===== */
+  .report-preview {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-top: 0;
+  }
+  .report-header-bg {
+    background: var(--forest);
+    padding: 2.5rem 3rem;
+    color: var(--cream);
+  }
+  .report-org { font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+  .report-title { font-family: 'DM Serif Display', serif; font-size: 2rem; margin-bottom: 0.4rem; }
+  .report-period { font-size: 0.85rem; color: rgba(245,240,232,0.6); }
+  .report-body { padding: 2.5rem 3rem; }
+  .report-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 2rem; }
+  .r-stat { text-align: center; padding: 1.2rem; border: 1.5px solid #eee; border-radius: 10px; }
+  .r-stat-val { font-family: 'DM Serif Display', serif; font-size: 1.8rem; color: var(--forest); }
+  .r-stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; }
+  .report-section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--forest);
+    margin: 1.8rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1.5px solid #eee;
+  }
+  .report-text { font-size: 0.88rem; color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
+  .report-actions { display: flex; gap: 1rem; padding: 1.5rem 3rem; border-top: 1.5px solid #eee; background: var(--cream); }
+
+  /* Progress bar for setup */
+  .progress-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .progress-step {
+    flex: 1;
+    padding: 0.9rem 1rem;
+    background: var(--white);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--muted);
+    border-right: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .progress-step:last-child { border-right: none; }
+  .progress-step.done { background: var(--forest); color: var(--cream); }
+  .progress-step.current { background: var(--sage); color: var(--white); }
+  .step-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+  }
+
+  .action-row { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
+  .btn-sage {
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-sage:hover { background: var(--forest); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Place<span>Mark</span></div>
+  <div class="nav-links">
+    <button class="active" onclick="showPage('landing', this)">Home</button>
+    <button onclick="showPage('setup', this)">① Project Setup</button>
+    <button onclick="showPage('indicators', this)">② Indicators</button>
+    <button onclick="showPage('data', this)">③ Data Collection</button>
+    <button onclick="showPage('dashboard', this)">④ Dashboard</button>
+    <button onclick="showPage('report', this)">⑤ Report</button>
+  </div>
+</nav>
+
+<!-- ===== LANDING ===== -->
+<div id="landing" class="page active">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Community Impact Toolkit · KTP Prototype</div>
+      <h1 class="hero-title">Evidence the <em>value</em> of your community</h1>
+      <p class="hero-desc">PlaceMark is a participatory evaluation toolkit designed for community-led creative placemaking organisations. Measure what matters. Tell your story. Demonstrate your impact.</p>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('setup', document.querySelector('.nav-links button:nth-child(2)'))">Start a New Project</button>
+        <button class="btn-outline" onclick="showPage('dashboard', document.querySelector('.nav-links button:nth-child(5)'))">View Demo Dashboard</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <p style="font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Five Evaluation Modules</p>
+      <div class="module-card" onclick="showPage('setup', document.querySelector('.nav-links button:nth-child(2)'))">
+        <div class="module-icon" style="background:rgba(26,58,42,0.08)">🗂️</div>
+        <div><h3>Project Setup</h3><p>Theory of Change builder & project details</p></div>
+        <span class="module-num">Step 1</span>
+      </div>
+      <div class="module-card" onclick="showPage('indicators', document.querySelector('.nav-links button:nth-child(3)'))">
+        <div class="module-icon" style="background:rgba(74,124,89,0.08)">📊</div>
+        <div><h3>Indicator Selection</h3><p>Choose metrics across five value domains</p></div>
+        <span class="module-num">Step 2</span>
+      </div>
+      <div class="module-card" onclick="showPage('data', document.querySelector('.nav-links button:nth-child(4)'))">
+        <div class="module-icon" style="background:rgba(196,133,90,0.08)">📋</div>
+        <div><h3>Data Collection</h3><p>Surveys, interviews, and observation tools</p></div>
+        <span class="module-num">Step 3</span>
+      </div>
+      <div class="module-card" onclick="showPage('dashboard', document.querySelector('.nav-links button:nth-child(5)'))">
+        <div class="module-icon" style="background:rgba(212,168,71,0.08)">📈</div>
+        <div><h3>Live Dashboard</h3><p>Real-time visualisation of your impact data</p></div>
+        <span class="module-num">Step 4</span>
+      </div>
+      <div class="module-card" onclick="showPage('report', document.querySelector('.nav-links button:nth-child(6)'))">
+        <div class="module-icon" style="background:rgba(122,171,138,0.08)">📄</div>
+        <div><h3>Report Generator</h3><p>Export impact reports for funders & policy makers</p></div>
+        <span class="module-num">Step 5</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SETUP ===== -->
+<div id="setup" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">HOME → PROJECT SETUP</div>
+    <h1>Set Up Your Project</h1>
+    <p>Tell us about your community project so we can build the right evaluation framework for you.</p>
+  </div>
+  <div class="page-content">
+    <div class="progress-bar">
+      <div class="progress-step current"><span class="step-num">1</span>Project Details</div>
+      <div class="progress-step"><span class="step-num">2</span>Theory of Change</div>
+      <div class="progress-step"><span class="step-num">3</span>Stakeholders</div>
+      <div class="progress-step"><span class="step-num">4</span>Review</div>
+    </div>
+
+    <div class="section-card">
+      <h2>Project Details</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Organisation Name</label>
+          <input type="text" placeholder="e.g. The Stove Network" value="The Stove Network">
+        </div>
+        <div class="form-group">
+          <label>Project Name</label>
+          <input type="text" placeholder="e.g. Creative Stranraer" value="Creative Stranraer">
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" placeholder="e.g. Dumfries, Scotland" value="Dumfries & Galloway, Scotland">
+        </div>
+        <div class="form-group">
+          <label>Project Duration</label>
+          <select>
+            <option>12 months</option>
+            <option selected>24 months</option>
+            <option>36 months</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Project Description</label>
+          <textarea placeholder="Describe your project in plain language...">A community-led arts and creative placemaking initiative working with residents of Stranraer to celebrate local culture, activate underused spaces, and strengthen community identity through participatory arts activities.</textarea>
+        </div>
+        <div class="form-group full">
+          <label>What problem is this project responding to?</label>
+          <textarea placeholder="What challenge or need does this project address?">Stranraer has experienced significant economic decline following the loss of the ferry terminal. Community cohesion is fragile and many residents feel disconnected from civic life and from each other.</textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="toc-builder">
+      <h2>Theory of Change Builder</h2>
+      <p>Map out the logic of your project — from what you put in, to the change you hope to create.</p>
+      <div style="overflow-x:auto;">
+        <div class="toc-row" style="grid-template-columns:160px 24px 1fr 24px 1fr 24px 1fr 24px 1fr;">
+          <div class="toc-label">Inputs</div>
+          <div class="toc-arrow">→</div>
+          <div class="toc-cell"><input value="£85,000 funding, 2 artists, 40 volunteers, community hall"></div>
+          <div class="toc-arrow">→</div>
+          <div class="toc-cell" style="border-left:1.5px solid #e0e0e0;"><input value="Mural project, weekly market, storytelling workshops, youth theatre"></div>
+          <div class="toc-arrow">→</div>
+          <div class="toc-cell" style="border-left:1.5px solid #e0e0e0;"><input value="400 participants, 1 mural, 24 events, 200 archived stories"></div>
+          <div class="toc-arrow">→</div>
+          <div class="toc-cell" style="border-left:1.5px solid #e0e0e0;"><input value="Stronger belonging, reduced isolation, local pride, new friendships"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:160px 24px 1fr 24px 1fr 24px 1fr 24px 1fr;margin-top:-0.5rem;">
+          <div style="background:rgba(26,58,42,0.06);border-radius:0 0 0 8px;padding:0.4rem 1rem;font-size:0.7rem;color:var(--muted);font-weight:600;letter-spacing:0.05em;"></div>
+          <div></div>
+          <div style="font-size:0.7rem;color:var(--muted);padding:0.3rem 0;text-align:center;font-weight:600;letter-spacing:0.04em;">INPUTS</div>
+          <div></div>
+          <div style="font-size:0.7rem;color:var(--muted);padding:0.3rem 0;text-align:center;font-weight:600;letter-spacing:0.04em;">ACTIVITIES</div>
+          <div></div>
+          <div style="font-size:0.7rem;color:var(--muted);padding:0.3rem 0;text-align:center;font-weight:600;letter-spacing:0.04em;">OUTPUTS</div>
+          <div></div>
+          <div style="font-size:0.7rem;color:var(--muted);padding:0.3rem 0;text-align:center;font-weight:600;letter-spacing:0.04em;">OUTCOMES</div>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem;padding:1.2rem;background:rgba(74,124,89,0.06);border-radius:8px;border-left:3px solid var(--sage);">
+        <div style="font-size:0.78rem;font-weight:600;color:var(--forest);margin-bottom:0.4rem;">Long-term Impact</div>
+        <input style="border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--text);width:100%;background:transparent;" value="Stranraer has a renewed civic identity, stronger social cohesion, and a more resilient local economy anchored in community-led cultural activity.">
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-sage" onclick="showPage('indicators', document.querySelector('.nav-links button:nth-child(3)'))">Save & Continue to Indicators →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INDICATORS ===== -->
+<div id="indicators" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">HOME → INDICATORS</div>
+    <h1>Choose Your Indicators</h1>
+    <p>Select the metrics that matter most for your project. You don't need to use all of them.</p>
+  </div>
+  <div class="page-content">
+    <div class="domain-tabs">
+      <button class="domain-tab active" onclick="filterDomain('all', this)">All Domains</button>
+      <button class="domain-tab" onclick="filterDomain('social', this)">🤝 Social</button>
+      <button class="domain-tab" onclick="filterDomain('cultural', this)">🎨 Cultural</button>
+      <button class="domain-tab" onclick="filterDomain('economic', this)">💷 Economic</button>
+      <button class="domain-tab" onclick="filterDomain('place', this)">📍 Place</button>
+      <button class="domain-tab" onclick="filterDomain('civic', this)">🏛️ Civic</button>
+    </div>
+
+    <div class="indicator-grid" id="indicatorGrid">
+      <!-- Social -->
+      <div class="indicator-item selected" data-domain="social" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Sense of Belonging</div>
+        <div class="indicator-desc">How connected do participants feel to their local community and neighbourhood?</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-qual">Qualitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="social" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Social Isolation</div>
+        <div class="indicator-desc">Change in self-reported loneliness levels using the validated UCLA Loneliness Scale.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item selected" data-domain="social" onclick="toggleIndicator(this)">
+        <div class="indicator-name">New Relationships Formed</div>
+        <div class="indicator-desc">Number of new social connections participants report making through the project.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="social" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Stories of Connection</div>
+        <div class="indicator-desc">Narrative accounts of meaningful social interactions enabled by the project.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-qual">Qualitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <!-- Cultural -->
+      <div class="indicator-item selected" data-domain="cultural" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Cultural Pride</div>
+        <div class="indicator-desc">Participants' sense of pride in local heritage, identity, and creative expression.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-qual">Qualitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="cultural" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Heritage Documentation</div>
+        <div class="indicator-desc">Volume of local stories, histories, and cultural artefacts captured and archived.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="cultural" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Creative Participation</div>
+        <div class="indicator-desc">Number and diversity of people actively participating in creative activities (not just audiences).</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="cultural" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Sense of Place Meaning</div>
+        <div class="indicator-desc">How participants describe what their place means to them — gathered through participatory mapping.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-qual">Qualitative</span>
+          <span class="tag tag-medium">Medium</span>
+        </div>
+      </div>
+      <!-- Economic -->
+      <div class="indicator-item" data-domain="economic" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Social Return on Investment</div>
+        <div class="indicator-desc">Monetary equivalent of social value generated per £1 invested (SROI ratio).</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-medium">Medium</span>
+        </div>
+      </div>
+      <div class="indicator-item selected" data-domain="economic" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Local Economic Spend</div>
+        <div class="indicator-desc">Estimated spend generated in the local economy through events and market activity.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <!-- Place -->
+      <div class="indicator-item selected" data-domain="place" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Perception of Safety</div>
+        <div class="indicator-desc">Do residents feel safer and more comfortable in public spaces as a result of the project?</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item" data-domain="place" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Use of Neglected Spaces</div>
+        <div class="indicator-desc">Footfall and activation of previously underused public spaces, measured through observation.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-medium">Medium</span>
+        </div>
+      </div>
+      <!-- Civic -->
+      <div class="indicator-item" data-domain="civic" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Community Agency</div>
+        <div class="indicator-desc">Do participants feel more confident in influencing decisions about their local area?</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-qual">Qualitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+      <div class="indicator-item selected" data-domain="civic" onclick="toggleIndicator(this)">
+        <div class="indicator-name">Civic Participation</div>
+        <div class="indicator-desc">Number of residents involved in co-design and decision-making processes.</div>
+        <div class="indicator-tags">
+          <span class="tag tag-quant">Quantitative</span>
+          <span class="tag tag-easy">Easy</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="selectedCount" style="margin-top:1.5rem;padding:1rem 1.4rem;background:var(--white);border-radius:10px;box-shadow:var(--shadow);font-size:0.85rem;color:var(--forest);font-weight:600;">
+      ✓ <span id="countNum">6</span> indicators selected across your project
+    </div>
+
+    <div class="action-row">
+      <button class="btn-sage" onclick="showPage('data', document.querySelector('.nav-links button:nth-child(4)'))">Save & Continue to Data Collection →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DATA COLLECTION ===== -->
+<div id="data" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">HOME → DATA COLLECTION</div>
+    <h1>Data Collection Tools</h1>
+    <p>Ready-to-use instruments for gathering evidence from your community. Pick what works for your project.</p>
+  </div>
+  <div class="page-content">
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-emoji">📝</div>
+        <h3>Community Survey</h3>
+        <p>A 12-question digital survey covering all selected indicators. Send via link or QR code.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button onclick="openSurvey()" style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Preview Survey</button>
+          <button style="background:var(--cream);color:var(--forest);border:1.5px solid #ddd;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Send Link</button>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">🎙️</div>
+        <h3>Interview Guide</h3>
+        <p>Structured open questions for one-to-one conversations with participants and community members.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Download PDF</button>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">👥</div>
+        <h3>Focus Group Guide</h3>
+        <p>Facilitation questions and tips for group conversations of 6–8 people. Includes warm-up activities.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Download PDF</button>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">✨</div>
+        <h3>Most Significant Change</h3>
+        <p>One-page form asking participants: "What is the most important change you have noticed?"</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button onclick="openMSC()" style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Open Form</button>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">📋</div>
+        <h3>Attendance Register</h3>
+        <p>Digital sign-in sheet with optional demographic fields. Data feeds directly into your dashboard.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Open Register</button>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-emoji">👁️</div>
+        <h3>Observation Sheet</h3>
+        <p>Structured form for recording what you notice at events — atmosphere, interactions, engagement.</p>
+        <div style="margin-top:1rem;display:flex;gap:0.5rem;justify-content:center;">
+          <button style="background:var(--sage);color:white;border:none;padding:0.5rem 1rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer;">Download PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Survey Modal -->
+    <div id="surveyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;">
+      <div style="background:white;border-radius:16px;padding:2.5rem;max-width:540px;width:90%;max-height:80vh;overflow-y:auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--forest);">Community Survey</h2>
+          <button onclick="closeSurvey()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);">✕</button>
+        </div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;">Thank you for taking part in Creative Stranraer. This short survey helps us understand what has changed for you. It takes about 5 minutes.</p>
+        <div style="display:flex;flex-direction:column;gap:1.4rem;">
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:var(--forest);display:block;margin-bottom:0.5rem;">1. How connected do you feel to your local community? (1 = not at all, 5 = very connected)</label>
+            <div style="display:flex;gap:0.5rem;">
+              <button class="likert-btn" onclick="selectLikert(this,1)">1</button>
+              <button class="likert-btn" onclick="selectLikert(this,2)">2</button>
+              <button class="likert-btn active" onclick="selectLikert(this,3)">3</button>
+              <button class="likert-btn" onclick="selectLikert(this,4)">4</button>
+              <button class="likert-btn" onclick="selectLikert(this,5)">5</button>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:var(--forest);display:block;margin-bottom:0.5rem;">2. Since taking part, do you feel more proud of where you live?</label>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid var(--sage);background:var(--sage);color:white;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">Yes, definitely</button>
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid #ddd;background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">A little</button>
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid #ddd;background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">Not really</button>
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid #ddd;background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">No change</button>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:var(--forest);display:block;margin-bottom:0.5rem;">3. Have you made any new friends or connections through this project?</label>
+            <div style="display:flex;gap:0.5rem;">
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid #ddd;background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">Yes</button>
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid #ddd;background:white;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">No</button>
+              <button style="padding:0.4rem 1rem;border-radius:20px;border:1.5px solid var(--sage);background:var(--sage);color:white;font-family:'DM Sans',sans-serif;font-size:0.82rem;cursor:pointer;">Not yet but I hope to</button>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:0.85rem;font-weight:600;color:var(--forest);display:block;margin-bottom:0.5rem;">4. In your own words, what has this project meant to you?</label>
+            <textarea style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:0.75rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;resize:vertical;min-height:80px;outline:none;" placeholder="Write anything you like..."></textarea>
+          </div>
+        </div>
+        <button style="margin-top:1.5rem;width:100%;background:var(--forest);color:white;border:none;padding:0.85rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;">Submit Response</button>
+      </div>
+    </div>
+    <style>
+    .likert-btn { width:40px;height:40px;border-radius:8px;border:1.5px solid #ddd;background:white;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.15s;color:var(--muted); }
+    .likert-btn.active,.likert-btn:hover { background:var(--forest);border-color:var(--forest);color:white; }
+    </style>
+
+    <!-- MSC Modal -->
+    <div id="mscModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;">
+      <div style="background:white;border-radius:16px;padding:2.5rem;max-width:500px;width:90%;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+          <h2 style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--forest);">Most Significant Change</h2>
+          <button onclick="closeMSC()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);">✕</button>
+        </div>
+        <div style="background:rgba(74,124,89,0.06);border-left:3px solid var(--sage);padding:1rem 1.2rem;border-radius:0 8px 8px 0;margin-bottom:1.5rem;">
+          <p style="font-size:0.95rem;color:var(--forest);font-style:italic;line-height:1.6;">"In the past few months, what is the most important change you have noticed in yourself, your relationships, or your community — because of this project?"</p>
+        </div>
+        <textarea style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:1rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;resize:vertical;min-height:140px;outline:none;" placeholder="Write in your own words. There are no right or wrong answers. Your story matters."></textarea>
+        <div style="margin-top:1rem;">
+          <label style="font-size:0.82rem;font-weight:600;color:var(--forest);display:block;margin-bottom:0.4rem;">Your name (optional)</label>
+          <input style="width:100%;border:1.5px solid #ddd;border-radius:8px;padding:0.65rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.85rem;outline:none;" placeholder="First name or anonymous">
+        </div>
+        <button style="margin-top:1.2rem;width:100%;background:var(--forest);color:white;border:none;padding:0.85rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;">Submit My Story</button>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-sage" onclick="showPage('dashboard', document.querySelector('.nav-links button:nth-child(5)'))">View Dashboard →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">HOME → DASHBOARD</div>
+    <h1>Impact Dashboard</h1>
+    <p>Creative Stranraer · Live data as of Month 14 · 247 responses collected</p>
+  </div>
+  <div class="page-content" style="max-width:1200px;">
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Participants</div>
+        <div class="stat-value">412</div>
+        <div class="stat-sub">↑ 23% from last quarter</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Survey Responses</div>
+        <div class="stat-value">247</div>
+        <div class="stat-sub">60% response rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Events Delivered</div>
+        <div class="stat-value">31</div>
+        <div class="stat-sub">Across 6 locations</div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-card">
+        <h3>Outcome Progress — % of respondents reporting positive change</h3>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+      <div class="chart-card">
+        <h3>Participant Breakdown</h3>
+        <div class="donut-wrap">
+          <svg class="donut" viewBox="0 0 36 36">
+            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#f0f0f0" stroke-width="3.2"/>
+            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1a3a2a" stroke-width="3.2" stroke-dasharray="40 60" stroke-dashoffset="25" transform="rotate(-90 18 18)"/>
+            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#4a7c59" stroke-width="3.2" stroke-dasharray="28 72" stroke-dashoffset="-15" transform="rotate(-90 18 18)"/>
+            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#d4a847" stroke-width="3.2" stroke-dasharray="20 80" stroke-dashoffset="-43" transform="rotate(-90 18 18)"/>
+            <circle cx="18" cy="18" r="15.9" fill="none" stroke="#c4855a" stroke-width="3.2" stroke-dasharray="12 88" stroke-dashoffset="-63" transform="rotate(-90 18 18)"/>
+          </svg>
+          <div class="donut-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#1a3a2a"></div>Adults 25–55 (40%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#4a7c59"></div>Young people 16–24 (28%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#d4a847"></div>Older adults 55+ (20%)</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#c4855a"></div>Under 16 (12%)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quotes-card">
+      <h3>Most Significant Change — Community Voices</h3>
+      <div class="quote-item">
+        <div class="quote-text">"I hadn't spoken to a neighbour in three years. The market changed that. I now have people I would actually call friends."</div>
+        <div class="quote-author">— Female participant, 68, Stranraer town centre</div>
+      </div>
+      <div class="quote-item">
+        <div class="quote-text">"Painting that mural made me feel like Stranraer had a history worth knowing. I never felt that before. I feel proud now."</div>
+        <div class="quote-author">— Male participant, 17, local secondary school</div>
+      </div>
+      <div class="quote-item">
+        <div class="quote-text">"My shop had three slow years. Since the market started, I have regulars. But more than the sales — people recommend me to their friends now."</div>
+        <div class="quote-author">— Local trader, High Street</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REPORT ===== -->
+<div id="report" class="page">
+  <div class="page-header">
+    <div class="breadcrumb">HOME → REPORT GENERATOR</div>
+    <h1>Generate Your Impact Report</h1>
+    <p>Choose your audience and we will format the evidence accordingly.</p>
+  </div>
+  <div class="page-content" style="max-width:900px;">
+    <div style="display:flex;gap:0.8rem;margin-bottom:2rem;">
+      <button class="domain-tab active">Funder Report</button>
+      <button class="domain-tab">Policy Maker Report</button>
+      <button class="domain-tab">Community Report</button>
+    </div>
+
+    <div class="report-preview">
+      <div class="report-header-bg">
+        <div class="report-org">The Stove Network · Creative Stranraer</div>
+        <div class="report-title">Impact Report 2025–26</div>
+        <div class="report-period">Reporting Period: April 2025 — March 2026 · Prepared for: Creative Scotland</div>
+      </div>
+      <div class="report-body">
+        <div class="report-stats">
+          <div class="r-stat"><div class="r-stat-val">412</div><div class="r-stat-label">Participants reached</div></div>
+          <div class="r-stat"><div class="r-stat-val">78%</div><div class="r-stat-label">Reported stronger belonging</div></div>
+          <div class="r-stat"><div class="r-stat-val">£3.20</div><div class="r-stat-label">Social value per £1 invested</div></div>
+          <div class="r-stat"><div class="r-stat-val">31</div><div class="r-stat-label">Community events delivered</div></div>
+        </div>
+        <div class="report-section-title">Executive Summary</div>
+        <div class="report-text">Creative Stranraer is a community-led creative placemaking initiative delivered by The Stove Network in partnership with local residents, artists, and traders. Over the reporting period, the project engaged 412 participants across 31 events, achieving measurable outcomes across social, cultural, economic, and civic domains. This report presents evidence of impact gathered through a participatory mixed-method evaluation framework.</div>
+        <div class="report-section-title">Social Impact</div>
+        <div class="report-text">Survey data collected from 247 respondents indicates that 78% reported feeling more connected to their local community following participation. Loneliness scores (UCLA Loneliness Scale) decreased by an average of 1.4 points. Qualitative testimony confirms the formation of new social relationships across age groups, with particular strength among older adults previously experiencing social isolation.</div>
+        <div class="report-section-title">Economic Impact</div>
+        <div class="report-text">SROI analysis indicates a social return of £3.20 for every £1 invested, representing a strong case for continued investment. Trader surveys at monthly market events indicate an average increase of 34% in footfall to local businesses on event days, with several traders reporting new regular customers attributable to project activity.</div>
+        <div class="report-section-title">Community Voice</div>
+        <div style="background:rgba(74,124,89,0.05);border-left:3px solid var(--sage);padding:1rem 1.2rem;border-radius:0 8px 8px 0;margin-bottom:1rem;">
+          <p style="font-size:0.88rem;font-style:italic;color:var(--text);line-height:1.7;">"Painting that mural made me feel like Stranraer had a history worth knowing. I feel proud of where I live for the first time."</p>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:0.4rem;">— Young participant, age 17</p>
+        </div>
+      </div>
+      <div class="report-actions">
+        <button class="btn-primary">Export as PDF</button>
+        <button class="btn-outline" style="color:var(--forest);border-color:#ddd;">Export as Word</button>
+        <button class="btn-outline" style="color:var(--forest);border-color:#ddd;">Share Link</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function toggleIndicator(el) {
+    el.classList.toggle('selected');
+    const count = document.querySelectorAll('.indicator-item.selected').length;
+    document.getElementById('countNum').textContent = count;
+  }
+
+  function filterDomain(domain, btn) {
+    document.querySelectorAll('.domain-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.indicator-item').forEach(item => {
+      if (domain === 'all' || item.dataset.domain === domain) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  function openSurvey() {
+    const m = document.getElementById('surveyModal');
+    m.style.display = 'flex';
+  }
+  function closeSurvey() {
+    document.getElementById('surveyModal').style.display = 'none';
+  }
+  function openMSC() {
+    document.getElementById('mscModal').style.display = 'flex';
+  }
+  function closeMSC() {
+    document.getElementById('mscModal').style.display = 'none';
+  }
+  function selectLikert(btn, val) {
+    btn.parentElement.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Bar chart
+  const bars = [
+    { label: 'Sense of Belonging', pct: 78, color: '#1a3a2a' },
+    { label: 'Cultural Pride', pct: 71, color: '#4a7c59' },
+    { label: 'New Connections', pct: 64, color: '#7aab8a' },
+    { label: 'Safety Perception', pct: 58, color: '#d4a847' },
+    { label: 'Civic Agency', pct: 52, color: '#c4855a' },
+  ];
+  const bc = document.getElementById('barChart');
+  bars.forEach(b => {
+    bc.innerHTML += `<div class="bar-item">
+      <div class="bar-label">${b.label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${b.pct}%;background:${b.color}"></div></div>
+      <div class="bar-pct">${b.pct}%</div>
+    </div>`;
+  });
+</script>
+</body>
+</html>
