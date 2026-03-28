@@ -11,7 +11,7 @@ PlaceMark is a web-based evaluation toolkit that helps community arts and creati
 
 It addresses a well-documented gap in the cultural sector: the absence of robust, accessible, and participatory frameworks capable of evidencing the full impact of community-based arts activity to commissioners, funders, and policymakers.
 
-This prototype demonstrates what a fully developed software version of the toolkit could look like, and forms part of a KTP research proposal focused on co-designing a nationally significant participatory evaluation framework for Scotland's community arts sector.
+This prototype was developed to demonstrate the concept and technical feasibility of the proposed toolkit as part of a KTP application to Innovate UK/UKRI. It illustrates what a fully developed software version of the toolkit could look like, and forms part of a KTP research proposal focused on co-designing a nationally significant participatory evaluation framework for Scotland's community arts sector.
 
 ---
 
@@ -119,7 +119,7 @@ placemark-toolkit/
 
 ## 🗺️ Development Roadmap
 
-This KTP is funded and will be delivered across 24 months in the following phases:
+If the KTP is awarded, the toolkit will be delivered across 24 months in the following phases:
 
 | Phase | Timeline | Focus |
 |-------|----------|-------|
